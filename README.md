@@ -1,2 +1,2 @@
 # Delphi
-abort Delphi demo
+abort Delphi SendXMLHTTPRequest demo
