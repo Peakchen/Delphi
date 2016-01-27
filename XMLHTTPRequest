@@ -1,0 +1,38 @@
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, msxml, ActiveX, StdCtrls;
+
+function SendXMLHTTPRequest(url: string): string;
+var
+  req: IXMLHTTPRequest;
+begin
+  try
+    CoInitialize(nil);
+    try
+      req := CoXMLHTTPRequest.Create;
+      req.open('post', Url, False, 'user', 'admin');
+      req.send(EmptyParam);
+      Result := req.responseText;
+    finally
+      CoUninitialize;
+    end;
+  except
+    // 错误时再提交一次
+    try
+      CoInitialize(nil);
+      try
+        req := CoXMLHTTPRequest.Create;
+        req.open('post', Url, False, EmptyParam, EmptyParam);
+        req.send(EmptyParam);
+        Result := req.responseText;
+      finally
+        CoUninitialize;
+      end;
+    except
+
+
+    end;
+  end;
+end;
+
